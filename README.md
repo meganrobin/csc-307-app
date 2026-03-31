@@ -1,1 +1,1 @@
-Read Me
+CSC-307 React App
