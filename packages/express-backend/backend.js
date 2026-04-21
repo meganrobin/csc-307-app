@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 
 const app = express();
@@ -53,6 +54,7 @@ const addUser = (user) => {
     return user;
 };
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
