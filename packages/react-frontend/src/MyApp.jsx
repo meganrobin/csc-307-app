@@ -6,11 +6,30 @@ function MyApp() {
     const [characters, setCharacters] = useState([]);
 
     function removeOneCharacter(index) {
-        const updated = characters.filter((character, i) => {
-            return i !== index;
+        const promise = fetch(`http://localhost:8000/users/${characters[index].id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            }
         });
-        setCharacters(updated);
+
+        return promise;
     }
+
+    function removeUser(index) {
+        removeOneCharacter(index)
+            .then((res) => {
+                if (res.status === 204) {
+                    const newCharacters = characters.filter((character, i) => {
+                        return i !== index;
+                    });
+                    setCharacters(newCharacters);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }        
 
     function fetchUsers() {
         const promise = fetch("http://localhost:8000/users");
@@ -28,7 +47,7 @@ function MyApp() {
 
 
     function postUser(person) {
-        const promise = fetch("Http://localhost:8000/users", {
+        const promise = fetch("http://localhost:8000/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -58,7 +77,7 @@ function MyApp() {
         <div className="container">
             <Table
                 characterData={characters}
-                removeCharacter={removeOneCharacter}
+                removeCharacter={removeUser}
             />
             <Form handleSubmit={updateList} />
         </div>
