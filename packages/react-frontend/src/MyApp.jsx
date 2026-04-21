@@ -35,13 +35,18 @@ function MyApp() {
             },
             body: JSON.stringify(person),
         });
+        console.log(promise);
 
         return promise;
     }
 
     function updateList(person) {
         postUser(person)
-            .then(() => setCharacters([...characters, person]))
+            .then((res) => { // Only update table if response is a 201
+                if (res.status === 201) {
+                    setCharacters([...characters, person]);
+                }
+            })
             .catch((error) => {
                 console.log(error);
             });

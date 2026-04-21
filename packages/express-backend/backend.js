@@ -96,10 +96,11 @@ app.get("/users/:id", (req, res) => {
     }
 });
 
+// Add a new user to the users list
 app.post("/users", (req, res) => {
     const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send();
+    let addedUser = addUser(userToAdd);
+    res.status(201).send(addedUser);
 });
 
 // Delete user by user's ID
